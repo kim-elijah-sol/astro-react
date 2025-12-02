@@ -8,7 +8,8 @@
     "preview": "astro preview",
     "astro": "astro",
     "lint": "eslint",
-    "fix": "eslint --fix"
+    "fix": "eslint --fix",
+    "test:e2e": "playwright test"
   },
   "dependencies": {
     "@astrojs/react": "^4.4.2",
