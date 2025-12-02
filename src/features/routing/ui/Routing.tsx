@@ -1,5 +1,5 @@
 import {
-  createMemoryHistory,
+  createBrowserHistory,
   createRootRoute,
   createRoute,
   createRouter,
@@ -42,13 +42,12 @@ const routeTree = rootRoute.addChildren([indexRoute, aRoute, bRoute]);
 
 export function Routing() {
   const router = useMemo(() => {
-    const memoryHistory = createMemoryHistory({
-      initialEntries: ['/'],
-    });
+    const browserHistory = createBrowserHistory();
 
     return createRouter({
       routeTree,
-      history: memoryHistory,
+      history:  browserHistory,
+      basepath: '/rt',
     });
   }, []);
 
