@@ -1,0 +1,17 @@
+import react            from '@vitejs/plugin-react';
+import { defineConfig } from 'vitest/config';
+
+export default defineConfig({
+  plugins: [react()],
+  test:    {
+    environment: 'jsdom',
+    globals:     true,
+    setupFiles:  ['./vitest.setup.ts'],
+    include:     ['src/**/*.spec.{ts,tsx}'],
+  },
+  resolve: {
+    alias: {
+      '@': '/Users/solk/Downloads/lab/astro-react/src',
+    },
+  },
+});
