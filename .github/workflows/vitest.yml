@@ -2,8 +2,12 @@ name: Vitest Component Tests
 on:
   push:
     branches: [ main ]
+    paths:
+      - 'src/**'
   pull_request:
     branches: [ main ]
+    paths:
+      - 'src/**'
 jobs:
   test:
     timeout-minutes: 10
