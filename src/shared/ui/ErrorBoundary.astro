@@ -1,0 +1,10 @@
+---
+const html = await Astro.slots.render('default');
+---
+
+<error-boundary>
+  <template shadowrootmode="open">
+    <slot></slot>
+  </template>
+  <Fragment set:html={html} />
+</error-boundary>

@@ -1,12 +1,11 @@
 ---
-import { actions } from 'astro:actions';
+import Layout       from '@/app/layouts/Layout.astro';
+import { getUser }  from '@/entities/user';
+import { UserList } from '@/widgets/user-list';
 
-import UserList    from '../components/UserList';
-import Layout      from '../layouts/Layout.astro';
-
-const { data } = await Astro.callAction(actions.getUser, {});
+const data = await getUser();
 ---
 
 <Layout>
-  <UserList data={data ?? []} />
+  <UserList data={data} />
 </Layout>

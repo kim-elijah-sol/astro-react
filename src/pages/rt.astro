@@ -1,0 +1,8 @@
+---
+import Layout      from '@/app/layouts/Layout.astro';
+import { Routing } from '@/features/routing';
+
+---
+<Layout>
+  <Routing client:only="react" />
+</Layout>

@@ -1,8 +1,13 @@
 ---
-import PostList from '../components/PostList';
-import Layout   from '../layouts/Layout.astro';
+import Layout        from '@/app/layouts/Layout.astro';
+import ErrorBoundary from '@/shared/ui/ErrorBoundary.astro';
+import { PostList }  from '@/widgets/post-list';
 ---
 
 <Layout>
-  <PostList client:load />
+  <ErrorBoundary>
+    <PostList client:load>
+      <h2 slot="title">Latest Posts</h2>
+    </PostList>
+  </ErrorBoundary>
 </Layout>
