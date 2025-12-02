@@ -1,3 +1,4 @@
+import path             from 'node:path';
 import react            from '@vitejs/plugin-react';
 import { defineConfig } from 'vitest/config';
 
@@ -11,7 +12,7 @@ export default defineConfig({
   },
   resolve: {
     alias: {
-      '@': '/Users/solk/Downloads/lab/astro-react/src',
+      '@': path.resolve(__dirname, 'src'),
     },
   },
 });
