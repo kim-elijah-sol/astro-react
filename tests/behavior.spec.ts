@@ -59,7 +59,7 @@ test.describe('Routing 페이지 (TanStack Router) 동작 테스트', () => {
     await expect(page.locator('h1:has-text("Page A")')).toBeVisible();
 
     // search param이 표시되는지 확인 (p 태그 내의 텍스트만 확인)
-    await expect(page.locator('p:has-text("hello from root layout")')).toBeVisible();
+    await expect(page.locator('p:has-text("Hello from RootLayout")')).toBeVisible();
   });
 
   test('Page B 링크 클릭 시 Page B로 이동', async ({ page }) => {
