@@ -1,11 +1,9 @@
 ---
 import Layout       from '@/app/layouts/Layout.astro';
-import { getUser }  from '@/entities/user';
 import { UserList } from '@/widgets/user-list';
 
-const data = await getUser();
 ---
 
 <Layout>
-  <UserList data={data} />
+  <UserList client:only="react" />
 </Layout>
