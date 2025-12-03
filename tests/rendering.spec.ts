@@ -54,24 +54,37 @@ test.describe('Users 페이지 렌더링 테스트', () => {
   test('유저 목록이 렌더링됨', async ({ page }) => {
     await page.goto('http://localhost:4321/users');
 
-    // ul 요소가 존재하는지 확인
-    await expect(page.locator('ul')).toBeVisible({ timeout: 10000 });
+    // table 요소가 존재하는지 확인
+    await expect(page.locator('table')).toBeVisible({ timeout: 10000 });
 
-    // 유저 아이템들이 li로 렌더링됨
-    const userItems = page.locator('ul li');
-    await expect(userItems).not.toHaveCount(0, { timeout: 10000 });
+    // 유저 아이템들이 테이블 행으로 렌더링됨
+    const userRows = page.locator('table tbody tr');
+    await expect(userRows).not.toHaveCount(0, { timeout: 10000 });
   });
 
   test('유저 아이템에 name, username, email 정보가 표시됨', async ({ page }) => {
     await page.goto('http://localhost:4321/users');
 
-    // 첫 번째 유저 아이템 확인
-    const firstUserItem = page.locator('ul li').first();
-    await expect(firstUserItem).toBeVisible({ timeout: 10000 });
+    // 첫 번째 유저 행 확인
+    const firstUserRow = page.locator('table tbody tr').first();
+    await expect(firstUserRow).toBeVisible({ timeout: 10000 });
 
-    // 유저 정보 형식 확인: "name (username) - email"
-    const userText = await firstUserItem.textContent();
-    expect(userText).toMatch(/.+\s\(.+\)\s-\s.+@.+/);
+    // 테이블 셀에서 name, username, email 정보 확인
+    const cells = firstUserRow.locator('td');
+    await expect(cells).toHaveCount(4); // ID, Name, Username, Email
+
+    // Name 컬럼 (두 번째 셀)
+    const nameCell = cells.nth(1);
+    await expect(nameCell).not.toBeEmpty();
+
+    // Username 컬럼 (세 번째 셀)
+    const usernameCell = cells.nth(2);
+    await expect(usernameCell).not.toBeEmpty();
+
+    // Email 컬럼 (네 번째 셀) - 이메일 형식 확인
+    const emailCell = cells.nth(3);
+    const emailText = await emailCell.textContent();
+    expect(emailText).toMatch(/.+@.+/);
   });
 });
 

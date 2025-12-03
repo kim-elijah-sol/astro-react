@@ -36,8 +36,8 @@ test.describe('Users 페이지 동작 테스트', () => {
   test('유저 목록이 렌더링됨', async ({ page }) => {
     await page.goto('http://localhost:4321/users');
 
-    // 유저 목록이 존재하는지 확인
-    await expect(page.locator('ul li')).not.toHaveCount(0, { timeout: 10000 });
+    // 유저 목록이 테이블 행으로 존재하는지 확인
+    await expect(page.locator('table tbody tr')).not.toHaveCount(0, { timeout: 10000 });
   });
 });
 
