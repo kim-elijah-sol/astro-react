@@ -1,5 +1,6 @@
 import {
   createBrowserHistory,
+  createHashHistory,
   createRootRoute,
   createRoute,
   createRouter,
@@ -42,12 +43,11 @@ const routeTree = rootRoute.addChildren([indexRoute, aRoute, bRoute]);
 
 export function Routing() {
   const router = useMemo(() => {
-    const browserHistory = createBrowserHistory();
+    const hashHistory = createHashHistory();
 
     return createRouter({
       routeTree,
-      history:  browserHistory,
-      basepath: '/rt',
+      history:  hashHistory,
     });
   }, []);
 
