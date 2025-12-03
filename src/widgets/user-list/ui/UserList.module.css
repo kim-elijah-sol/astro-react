@@ -5,20 +5,20 @@
 .loading {
   display: flex;
   align-items: center;
-  justify-content: center;
   padding: 2rem;
   color: #6b7280;
   font-size: 0.875rem;
 }
 
 .table {
-  width: 100%;
+  width: 50%;
   border-collapse: collapse;
   background-color: #fff;
   border-radius: 0.5rem;
   overflow: hidden;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   transition: opacity 0.2s ease;
+  table-layout: fixed;
 }
 
 .table.fetching {
@@ -58,7 +58,6 @@
 .pagination {
   display: flex;
   align-items: center;
-  justify-content: center;
   gap: 0.5rem;
   margin-top: 1rem;
   padding: 0.75rem;
@@ -136,7 +135,6 @@
 }
 
 .pageInfo {
-  text-align: center;
   font-size: 0.75rem;
   color: #6b7280;
   margin-top: 0.5rem;

@@ -18,18 +18,22 @@ const columns = [
   columnHelper.accessor('id', {
     header: 'ID',
     cell: (info) => info.getValue(),
+    meta: { width: '10%', textAlign: 'center' },
   }),
   columnHelper.accessor('name', {
     header: 'Name',
     cell: (info) => info.getValue(),
+    meta: { width: '30%' },
   }),
   columnHelper.accessor('username', {
     header: 'Username',
     cell: (info) => info.getValue(),
+    meta: { width: '25%' },
   }),
   columnHelper.accessor('email', {
     header: 'Email',
     cell: (info) => info.getValue(),
+    meta: { width: '35%' },
   }),
 ];
 
@@ -112,7 +116,10 @@ export const UserList = withQueryClientProvider(() => {
           {table.getHeaderGroups().map((headerGroup) => (
             <tr key={headerGroup.id}>
               {headerGroup.headers.map((header) => (
-                <th key={header.id}>
+                <th
+                  key={header.id}
+                  style={{ width: (header.column.columnDef.meta as { width?: string })?.width }}
+                >
                   {header.isPlaceholder
                     ? null
                     : flexRender(
@@ -128,7 +135,10 @@ export const UserList = withQueryClientProvider(() => {
           {table.getRowModel().rows.map((row) => (
             <tr key={row.id}>
               {row.getVisibleCells().map((cell) => (
-                <td key={cell.id}>
+                <td
+                  key={cell.id}
+                  style={{ textAlign: (cell.column.columnDef.meta as { textAlign?: 'left' | 'center' | 'right' })?.textAlign }}
+                >
                   {flexRender(cell.column.columnDef.cell, cell.getContext())}
                 </td>
               ))}
