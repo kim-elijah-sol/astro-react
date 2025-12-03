@@ -36,11 +36,12 @@ const columns = [
 export const UserList = withQueryClientProvider(() => {
   const [pagination, setPagination] = useState<UserPagination>({ page: 0, perPage: 10 });
 
-  const { data, isLoading } = useQuery({
+  const { data, isLoading, isFetching } = useQuery({
     queryKey: ['users', pagination],
     queryFn: () => getUser(pagination),
     refetchOnWindowFocus: false,
-    refetchOnReconnect: false
+    refetchOnReconnect: false,
+    placeholderData: (previousData) => previousData,
   });
 
   const table = useReactTable({
@@ -106,7 +107,7 @@ export const UserList = withQueryClientProvider(() => {
 
   return (
     <div className={styles.container}>
-      <table className={styles.table}>
+      <table className={`${styles.table} ${isFetching ? styles.fetching : ''}`}>
         <thead>
           {table.getHeaderGroups().map((headerGroup) => (
             <tr key={headerGroup.id}>
