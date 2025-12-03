@@ -1,19 +1,16 @@
-import { useSuspenseQuery }       from '@tanstack/react-query';
-import type { PropsWithChildren } from 'react';
+import { useSuspenseQuery }    from '@tanstack/react-query';
 
-import { deletePost, getPost }    from '@/entities/post';
-import { queryClient }            from '@/shared';
+import { deletePost, getPost } from '@/entities/post';
+import { queryClient }         from '@/shared';
 
-export function PostList({ children }: PropsWithChildren) {
+export function PostList() {
   const { data, refetch } = useSuspenseQuery({
     queryKey: ['posts'],
     queryFn:  getPost,
   }, queryClient);
 
   return (
-    <>
-      {children}
-      <ul>
+    <ul>
         {
           data.map(post => (
             <li
@@ -27,7 +24,6 @@ export function PostList({ children }: PropsWithChildren) {
             </li>
           ))
         }
-      </ul>
-    </>
+    </ul>
   );
 }
