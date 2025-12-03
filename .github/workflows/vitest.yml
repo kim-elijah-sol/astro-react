@@ -4,10 +4,12 @@ on:
     branches: [ main ]
     paths:
       - 'src/**'
+      - '.github/workflows/vitest.yml'
   pull_request:
     branches: [ main ]
     paths:
       - 'src/**'
+      - '.github/workflows/vitest.yml'
 jobs:
   test:
     timeout-minutes: 10

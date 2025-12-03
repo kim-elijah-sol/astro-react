@@ -5,11 +5,13 @@ on:
     paths:
       - 'src/**'
       - 'tests/**'
+      - '.github/workflows/playwright.yml'
   pull_request:
     branches: [main]
     paths:
       - 'src/**'
       - 'tests/**'
+      - '.github/workflows/playwright.yml'
 jobs:
   test:
     timeout-minutes: 60
