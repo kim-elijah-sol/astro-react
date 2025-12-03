@@ -35,6 +35,8 @@ export const UserList = withQueryClientProvider(() => {
   const { data, isLoading } = useQuery({
     queryKey: ['users', { page: 0, perPage: 10 }],
     queryFn: () => getUser({ page: 0, perPage: 10 }),
+    refetchOnWindowFocus: false,
+    refetchOnReconnect: false
   });
 
   const table = useReactTable({
