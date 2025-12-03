@@ -1,12 +1,11 @@
 import {
-  createBrowserHistory,
   createHashHistory,
   createRootRoute,
   createRoute,
   createRouter,
   RouterProvider,
 } from '@tanstack/react-router';
-import { useMemo }    from 'react';
+import { z } from 'zod';
 
 import { HomePage }   from './HomePage';
 import { PageA }      from './PageA';
@@ -24,13 +23,15 @@ const indexRoute = createRoute({
   component:      HomePage,
 });
 
+const aSearchSchema = z.object({
+  a: z.string(),
+});
+
 const aRoute = createRoute({
   getParentRoute: () => rootRoute,
   path:           '/a',
   component:      PageA,
-  validateSearch: (search: Record<string, unknown>) => ({
-    a: (search.a as string) || '',
-  }),
+  validateSearch: aSearchSchema,
 });
 
 const bRoute = createRoute({
@@ -41,15 +42,18 @@ const bRoute = createRoute({
 
 const routeTree = rootRoute.addChildren([indexRoute, aRoute, bRoute]);
 
+const router = createRouter({
+  routeTree,
+  history:  createHashHistory(),
+  basepath: '/rt',
+});
+
+declare module '@tanstack/react-router' {
+  interface Register {
+    router: typeof router;
+  }
+}
+
 export function Routing() {
-  const router = useMemo(() => {
-    const hashHistory = createHashHistory();
-
-    return createRouter({
-      routeTree,
-      history:  hashHistory,
-    });
-  }, []);
-
   return <RouterProvider router={router} />;
 }

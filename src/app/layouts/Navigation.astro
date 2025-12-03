@@ -1,3 +1,21 @@
-<nav>
+---
+const url = new URL(Astro.request.url);
+const pathname = url.pathname;
+---
+
+<nav id="navigation">
   <a href="/">posts</a> | <a href="/users">users</a> | <a href="/rt">routing</a>
 </nav>
+
+<script is:inline define:vars={{pathname}}>
+  const anchors = document.querySelectorAll('nav#navigation a');
+
+  anchors.forEach((anchor) => {
+    if (anchor.getAttribute('href') === pathname) {
+      // 어차피 같은 페이지이므로 이동 불가능하도록 제어
+      anchor.addEventListener('click', (event) => {
+        event.preventDefault();
+      });
+    }
+  });
+</script>

@@ -8,7 +8,7 @@ export function RootLayout() {
         <Link to="/">Home</Link>
         <Link
           to="/a" search={{
-            a: 'hello from root layout',
+            a: 'Hello from RootLayout',
           }}
         >Page A
         </Link>

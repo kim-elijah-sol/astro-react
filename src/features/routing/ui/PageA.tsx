@@ -6,7 +6,7 @@ export function PageA() {
   return (
     <div>
       <h1>Page A</h1>
-      <p>Search param "a": {a || '(empty)'}</p>
+      <p>Search param "a": {a}</p>
     </div>
   );
 }
