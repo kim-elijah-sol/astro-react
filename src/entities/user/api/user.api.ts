@@ -22,9 +22,11 @@ export const getUser: (pagination: UserPagination) => Promise<UserResponse> = ({
   new Promise((resolve) => setTimeout(() => {
     const originalUsers = generateUsers(perPage);
 
+    const pageBase = page * perPage;
+
     const newIdUsers = originalUsers.map(user => ({
       ...user,
-      id: maxUsers - user.id,
+      id: maxUsers - user.id - pageBase,
     }));
 
     resolve({
