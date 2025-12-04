@@ -1,3 +1,9 @@
+import { ContentUploadForm } from "../../content-upload";
+
 export function HomePage() {
-  return <h1>Home</h1>;
+  return (
+    <div style={{ padding: "0 1rem" }}>
+      <ContentUploadForm />
+    </div>
+  );
 }
