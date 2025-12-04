@@ -1,5 +1,4 @@
 import {
-  createHashHistory,
   createRootRoute,
   createRoute,
   createRouter,
@@ -44,7 +43,6 @@ const routeTree = rootRoute.addChildren([indexRoute, aRoute, bRoute]);
 
 const router = createRouter({
   routeTree,
-  history:  createHashHistory(),
   basepath: '/rt',
 });
 
