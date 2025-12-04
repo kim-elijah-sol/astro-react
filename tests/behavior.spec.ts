@@ -117,3 +117,133 @@ test.describe('Routing 페이지 (TanStack Router) 동작 테스트', () => {
     await expect(page.locator('h2:has-text("콘텐츠 업로드")')).toBeVisible();
   });
 });
+
+test.describe('콘텐츠 업로드 폼 동작 테스트', () => {
+  test.beforeEach(async ({ page }) => {
+    await page.goto('http://localhost:4321/rt');
+  });
+
+  test('초기 상태에서 업로드 버튼이 비활성화됨', async ({ page }) => {
+    const submitButton = page.getByRole('button', { name: '업로드' });
+    await expect(submitButton).toBeDisabled();
+  });
+
+  test('필수 필드 미입력 시 업로드 버튼이 비활성화 상태 유지', async ({ page }) => {
+    // URL만 입력
+    await page.fill('#url', 'https://example.com/product');
+
+    const submitButton = page.getByRole('button', { name: '업로드' });
+    await expect(submitButton).toBeDisabled();
+  });
+
+  test('모든 필수 필드 입력 시 업로드 버튼이 활성화됨', async ({ page }) => {
+    // URL 입력
+    await page.fill('#url', 'https://example.com/product');
+
+    // 이미지 업로드
+    const fileInput = page.locator('#image');
+    await fileInput.setInputFiles({
+      name: 'test-image.png',
+      mimeType: 'image/png',
+      buffer: Buffer.from('fake-image-content'),
+    });
+
+    // 상품명 입력
+    await page.fill('#productName', '테스트 상품');
+
+    // 태그 선택
+    await page.click('text=Fashion');
+
+    // 업로드 버튼이 활성화됨
+    const submitButton = page.getByRole('button', { name: '업로드' });
+    await expect(submitButton).toBeEnabled();
+  });
+
+  test('유효하지 않은 URL 입력 시 에러 메시지 표시', async ({ page }) => {
+    // 유효하지 않은 URL 입력
+    await page.fill('#url', 'invalid-url');
+    await page.fill('#productName', '테스트'); // 다른 필드로 포커스 이동
+
+    // 에러 메시지 확인
+    await expect(page.locator('text=올바른 URL을 입력해주세요')).toBeVisible();
+  });
+
+  test('이미지 업로드 후 미리보기가 표시됨', async ({ page }) => {
+    const fileInput = page.locator('#image');
+    await fileInput.setInputFiles({
+      name: 'test-image.png',
+      mimeType: 'image/png',
+      buffer: Buffer.from('fake-image-content'),
+    });
+
+    // 미리보기 이미지 확인
+    await expect(page.locator('img[alt="미리보기"]')).toBeVisible();
+
+    // 삭제 버튼 확인
+    await expect(page.getByRole('button', { name: '이미지 삭제' })).toBeVisible();
+  });
+
+  test('이미지 삭제 버튼 클릭 시 미리보기가 제거됨', async ({ page }) => {
+    // 이미지 업로드
+    const fileInput = page.locator('#image');
+    await fileInput.setInputFiles({
+      name: 'test-image.png',
+      mimeType: 'image/png',
+      buffer: Buffer.from('fake-image-content'),
+    });
+
+    // 미리보기 확인
+    await expect(page.locator('img[alt="미리보기"]')).toBeVisible();
+
+    // 삭제 버튼 클릭
+    await page.click('button[aria-label="이미지 삭제"]');
+
+    // 미리보기가 사라지고 업로드 텍스트가 다시 표시됨
+    await expect(page.locator('img[alt="미리보기"]')).not.toBeVisible();
+    await expect(page.locator('text=클릭하여 이미지 업로드')).toBeVisible();
+  });
+
+  test('태그 선택/해제가 정상 동작함', async ({ page }) => {
+    // Fashion 태그 선택
+    await page.click('text=Fashion');
+    const fashionCheckbox = page.locator('input[type="checkbox"]').first();
+    await expect(fashionCheckbox).toBeChecked();
+
+    // Beauty 태그 추가 선택
+    await page.click('text=Beauty');
+    const beautyCheckbox = page.locator('input[type="checkbox"]').nth(1);
+    await expect(beautyCheckbox).toBeChecked();
+
+    // Fashion 태그 해제
+    await page.click('text=Fashion');
+    await expect(fashionCheckbox).not.toBeChecked();
+  });
+
+  test('폼 제출 성공 시 alert 표시', async ({ page }) => {
+    // 모든 필수 필드 입력
+    await page.fill('#url', 'https://example.com/product');
+
+    const fileInput = page.locator('#image');
+    await fileInput.setInputFiles({
+      name: 'test-image.png',
+      mimeType: 'image/png',
+      buffer: Buffer.from('fake-image-content'),
+    });
+
+    await page.fill('#productName', '테스트 상품');
+    await page.click('text=Fashion');
+
+    // 버튼이 활성화될 때까지 대기
+    const submitButton = page.getByRole('button', { name: '업로드' });
+    await expect(submitButton).toBeEnabled();
+
+    // alert 핸들러 설정 후 클릭 동시 실행
+    await Promise.all([
+      page.waitForEvent('dialog').then(async (dialog) => {
+        expect(dialog.message()).toBe('콘텐츠가 업로드되었습니다!');
+        await dialog.accept();
+      }),
+      submitButton.click({ force: true }),
+    ]);
+  });
+});

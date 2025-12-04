@@ -16,9 +16,10 @@ export function ContentUploadForm() {
     handleSubmit,
     watch,
     setValue,
-    formState: { errors, isSubmitting },
+    formState: { errors, isSubmitting, isValid },
   } = useForm<ContentUploadFormData>({
-    resolver:  zodResolver(contentUploadSchema),
+    resolver: zodResolver(contentUploadSchema),
+    mode: "onChange",
   });
 
   const selectedTags = watch("tags") || [];
@@ -183,7 +184,7 @@ export function ContentUploadForm() {
       <button
         type="submit"
         className={styles.submitButton}
-        disabled={isSubmitting}
+        disabled={!isValid || isSubmitting}
       >
         {isSubmitting ? "업로드 중..." : "업로드"}
       </button>
