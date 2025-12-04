@@ -101,7 +101,8 @@ test.describe('Routing 페이지 렌더링 테스트', () => {
   test('Home 페이지 컴포넌트가 렌더링됨', async ({ page }) => {
     await page.goto('http://localhost:4321/rt');
 
-    await expect(page.locator('h1:has-text("Home")')).toBeVisible();
+    // 콘텐츠 업로드 폼이 렌더링됨
+    await expect(page.locator('h2:has-text("콘텐츠 업로드")')).toBeVisible();
   });
 
   test('Page A 컴포넌트가 렌더링됨', async ({ page }) => {

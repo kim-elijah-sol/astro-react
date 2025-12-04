@@ -45,8 +45,8 @@ test.describe('Routing 페이지 (TanStack Router) 동작 테스트', () => {
   test('초기 Home 페이지가 렌더링됨', async ({ page }) => {
     await page.goto('http://localhost:4321/rt');
 
-    // Home 제목 확인
-    await expect(page.locator('h1:has-text("Home")')).toBeVisible();
+    // 콘텐츠 업로드 폼 제목 확인
+    await expect(page.locator('h2:has-text("콘텐츠 업로드")')).toBeVisible();
   });
 
   test('Page A 링크 클릭 시 Page A로 이동하고 search param 표시', async ({ page }) => {
@@ -99,8 +99,8 @@ test.describe('Routing 페이지 (TanStack Router) 동작 테스트', () => {
     // "이전 페이지로" 버튼 클릭
     await page.click('button:has-text("이전 페이지로")');
 
-    // Home으로 돌아왔는지 확인
-    await expect(page.locator('h1:has-text("Home")')).toBeVisible();
+    // Home으로 돌아왔는지 확인 (콘텐츠 업로드 폼)
+    await expect(page.locator('h2:has-text("콘텐츠 업로드")')).toBeVisible();
   });
 
   test('Home 링크로 홈으로 복귀', async ({ page }) => {
@@ -113,7 +113,7 @@ test.describe('Routing 페이지 (TanStack Router) 동작 테스트', () => {
     // Home 링크 클릭
     await page.click('a:has-text("Home")');
 
-    // Home으로 돌아왔는지 확인
-    await expect(page.locator('h1:has-text("Home")')).toBeVisible();
+    // Home으로 돌아왔는지 확인 (콘텐츠 업로드 폼)
+    await expect(page.locator('h2:has-text("콘텐츠 업로드")')).toBeVisible();
   });
 });
